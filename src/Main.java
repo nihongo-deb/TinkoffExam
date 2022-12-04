@@ -1,34 +1,35 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        int n = Integer.parseInt(scanner.nextLine());
-        String s = scanner.nextLine();
-        String colors = scanner.nextLine();
+        int num = scanner.nextInt();
+        int a = 1;
+        int b = num - 1;
 
-        List<String> colorsList = new ArrayList<>();
-        List<String> sArray = Arrays.stream(s.split(" ")).toList();
-        int errors = 0;
+        int minNOK = nok(a, b);
+        int retA = a;
+        int retB = b;
 
+        int iterNok;
+         for (int i = 0; i < num / 2; i++){
+             a++;
+             b--;
+             iterNok = nok(a, b);
+             if (iterNok < minNOK){
+                 minNOK = iterNok;
+                 retA = a;
+                 retB = b;
+             }
+         }
 
-        for (int i = 0; i < sArray.size(); i++){
-            int length = sArray.get(i).length();
-            colorsList.add(colors.substring(0, length));
-            colors = colors.replaceFirst(colors.substring(0, length), "");
-        }
+        System.out.println(retA + " " + retB);
+    }
 
-        for (String color : colorsList){
-            for (int i = 0; i < color.length() - 1; i++){
-                if(color.charAt(i) == color.charAt(i + 1)) {
-                    errors++;
-                    break;
-                }
-            }
-        }
+    static int nod(int a,int b){
+        return b == 0 ? a : nod(b,a % b);
+    }
 
-        System.out.println(errors);
+    static int nok(int a,int b){
+        return a / nod(a,b) * b;
     }
 }
